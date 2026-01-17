@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>bia 💌 surpresa</title>
+<title>bia 💌 carta surpresa</title>
 
 <style>
 :root {
@@ -48,25 +48,45 @@ p {
     line-height: 1.6;
 }
 
-/* ENVELOPE */
-.envelope-wrapper {
-    height: 180px;
+/* AREA ENVELOPE */
+.envelope-area {
+    height: 220px;
     position: relative;
     margin-top: 20px;
 }
 
+/* CARTA */
+.carta {
+    width: 210px;
+    height: 120px;
+    background: white;
+    border-radius: 14px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    position: absolute;
+    left: 50%;
+    bottom: 40px;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    color: var(--rosa);
+    transition: transform 1s ease;
+    z-index: 1;
+}
+
+.carta.subir {
+    transform: translate(-50%, -120px);
+}
+
+/* ENVELOPE */
 .envelope {
     width: 240px;
     height: 150px;
-    margin: 0 auto;
     position: absolute;
     left: 50%;
+    bottom: 0;
     transform: translateX(-50%);
-    transition: transform 1s ease;
-}
-
-.envelope.subir {
-    transform: translate(-50%, -80px);
 }
 
 .envelope-base {
@@ -176,28 +196,27 @@ footer {
 <body>
 
 <div class="container">
-    <h1>💌 ei, bibia</h1>
+    <h1>💌 atenção, bibia</h1>
 
     <p>
-        isso aqui não é estudo,  
-        não é cobrança  
-        e nem pegadinha.
+        contém informações importantes,<br>
+        zero úteis pra prova,<br>
+        mas ótimas pro coração.
     </p>
 
-    <p>
-        é só um lembrete disfarçado  
-        de brincadeira.
-    </p>
+    <div class="envelope-area">
+        <div class="carta" id="carta">
+            abrir com cuidado 💖
+        </div>
 
-    <div class="envelope-wrapper">
         <div class="envelope" id="envelope">
             <div class="envelope-tampa"></div>
             <div class="envelope-base"></div>
         </div>
     </div>
 
-    <button class="botao" onclick="abrirEnvelope()">
-        abrir 💖
+    <button class="botao" onclick="abrirCarta()">
+        abrir agora ✨
     </button>
 
     <div class="flashcards" id="flashcards">
@@ -205,11 +224,11 @@ footer {
         <div class="flashcard">
             <div class="card" onclick="virar(this)">
                 <div class="face frente">
-                    pergunta simples:
+                    pergunta de nível fácil:
                 </div>
                 <div class="face verso">
-                    quem domina o civil com calma, cabeça fria  
-                    e constância?
+                    quem vai dominar o direito civil<br>
+                    sem perder a doçura?
                     <br><br>
                     a bibia.
                 </div>
@@ -219,11 +238,13 @@ footer {
         <div class="flashcard">
             <div class="card" onclick="virar(this)">
                 <div class="face frente">
-                    curiosidade científica:
+                    teste de resistência:
                 </div>
                 <div class="face verso">
-                    a força da bibia aumenta  
-                    proporcionalmente ao foco.
+                    quem aguenta mais pressão,<br>
+                    cansaço e ainda segue firme?
+                    <br><br>
+                    a bibia.
                 </div>
             </div>
         </div>
@@ -231,11 +252,13 @@ footer {
         <div class="flashcard">
             <div class="card" onclick="virar(this)">
                 <div class="face frente">
-                    fato não discutível:
+                    pergunta capciosa:
                 </div>
                 <div class="face verso">
-                    disciplina hoje  
-                    tranquilidade amanhã.
+                    existe alguém focada<br>
+                    quando decide ir até o fim?
+                    <br><br>
+                    não.
                 </div>
             </div>
         </div>
@@ -243,11 +266,12 @@ footer {
         <div class="flashcard">
             <div class="card" onclick="virar(this)">
                 <div class="face frente">
-                    previsão confiável:
+                    spoiler oficial:
                 </div>
                 <div class="face verso">
-                    aprovação chegando,  
-                    confiança ficando.
+                    aprovação chegando,<br>
+                    confiança no lugar,<br>
+                    orgulho espalhado por aí 💖
                 </div>
             </div>
         </div>
@@ -255,11 +279,11 @@ footer {
         <div class="flashcard">
             <div class="card" onclick="virar(this)">
                 <div class="face frente">
-                    lembrete final:
+                    mensagem escondida:
                 </div>
                 <div class="face verso">
-                    você não precisa provar nada.  
-                    só continuar.
+                    você já está no caminho certo.<br>
+                    só continua.
                 </div>
             </div>
         </div>
@@ -267,20 +291,18 @@ footer {
     </div>
 
     <footer>
-        alguém acredita em você  
-        mais do que você imagina 💗
+        alguém aqui acredita muito em você 💗
     </footer>
 </div>
 
 <script>
-function abrirEnvelope() {
-    const env = document.getElementById("envelope");
-    env.classList.add("aberto");
-    env.classList.add("subir");
+function abrirCarta() {
+    document.getElementById("envelope").classList.add("aberto");
+    document.getElementById("carta").classList.add("subir");
 
     setTimeout(() => {
         document.getElementById("flashcards").style.display = "grid";
-    }, 800);
+    }, 900);
 }
 
 function virar(card) {
