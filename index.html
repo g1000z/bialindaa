@@ -1,185 +1,167 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>bia 💌 mini jogo</title>
+<title>bia 💖 mini jogo</title>
 
 <style>
-:root{
-  --rosa:#ff3f7f;
-  --rosa-escuro:#e62e6b;
-  --rosa-claro:#ffe1ec;
-  --fundo:linear-gradient(135deg,#ffd6e3,#fff0f6);
+:root {
+    --rosa: #ff3f7f;
+    --rosa-claro: #ffe1ec;
+    --fundo: linear-gradient(135deg, #ffd6e3, #fff0f6);
 }
 
-*{box-sizing:border-box}
+* { box-sizing: border-box; }
 
-body{
-  margin:0;
-  min-height:100vh;
-  font-family:'Segoe UI',sans-serif;
-  background:var(--fundo);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--fundo);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.container{
-  background:#fff;
-  max-width:480px;
-  width:100%;
-  border-radius:28px;
-  padding:30px 26px 36px;
-  box-shadow:0 30px 60px rgba(0,0,0,.25);
-  text-align:center;
-  overflow:hidden;
+.container {
+    background: white;
+    max-width: 480px;
+    width: 100%;
+    border-radius: 28px;
+    padding: 30px 26px 36px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.25);
+    text-align: center;
+    overflow: hidden;
 }
 
-h1{color:var(--rosa)}
-
-/* === ÁREA DO ENVELOPE === */
-.area-envelope{
-  height:320px;
-  position:relative;
-  margin-top:20px;
-  perspective:1200px;
+h1 {
+    color: var(--rosa);
 }
 
-/* === ENVELOPE === */
-.envelope{
-  width:260px;
-  height:160px;
-  position:absolute;
-  left:50%;
-  bottom:0;
-  transform:translateX(-50%);
+/* ÁREA DA CARTA */
+.area-carta {
+    height: 260px;
+    position: relative;
+    margin-top: 20px;
 }
 
-.envelope-base{
-  width:100%;
-  height:100%;
-  background:var(--rosa);
-  border-radius:0 0 22px 22px;
-  box-shadow:0 12px 30px rgba(0,0,0,.25);
-  position:relative;
-  z-index:1;
+/* CARTA */
+.carta {
+    width: 220px;
+    height: 150px;
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    perspective: 1000px;
 }
 
-/* TAMPA COM FÍSICA */
-.envelope-tampa{
-  position:absolute;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  transform-origin:top center;
-  transform:rotateX(0deg);
-  transition:transform .9s cubic-bezier(.25,.8,.25,1);
-  z-index:3;
-}
-
-.envelope-tampa::before{
-  content:"";
-  position:absolute;
-  top:0;
-  left:0;
-  width:0;
-  height:0;
-  border-left:130px solid transparent;
-  border-right:130px solid transparent;
-  border-bottom:90px solid var(--rosa-escuro);
-}
-
-.envelope.aberto .envelope-tampa{
-  transform:rotateX(-160deg);
-}
-
-/* === CARTA === */
-.carta{
-  width:210px;
-  height:150px;
-  background:#fffdfc;
-  border-radius:12px;
-  box-shadow:
-    0 10px 25px rgba(0,0,0,.25),
-    inset 0 0 0 1px #f2c4d6;
-  position:absolute;
-  left:50%;
-  bottom:20px;
-  transform:translate(-50%,0);
-  transition:transform 1.2s cubic-bezier(.22,1,.36,1);
-  z-index:2;
-  padding:14px;
-  font-family:Georgia,serif;
-  color:#444;
-}
-
-.carta.subir{
-  transform:translate(-50%,-170px);
+/* PAPEL */
+.papel {
+    width: 100%;
+    height: 100%;
+    background: #fffdfc;
+    border-radius: 12px;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.25),
+        inset 0 0 0 1px #f2c4d6;
+    position: relative;
 }
 
 /* DOBRAS */
-.dobra{
-  position:absolute;
-  left:0;
-  width:100%;
-  height:50%;
-  background:#fffdfc;
-  backface-visibility:hidden;
+.dobra {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #fffdfc;
+    backface-visibility: hidden;
+    transition: transform .8s ease;
 }
 
-.dobra.cima{
-  top:0;
-  border-bottom:1px solid #f2c4d6;
-  transform-origin:top;
-  transform:rotateX(180deg);
-  transition:transform .8s ease;
+.dobra.cima {
+    top: 0;
+    border-bottom: 1px solid #f2c4d6;
+    transform-origin: top;
+    transform: rotateX(180deg);
 }
 
-.dobra.baixo{
-  bottom:0;
-  border-top:1px solid #f2c4d6;
-  transform-origin:bottom;
-  transform:rotateX(180deg);
-  transition:transform .8s ease .15s;
+.dobra.baixo {
+    bottom: 0;
+    border-top: 1px solid #f2c4d6;
+    transform-origin: bottom;
+    transform: rotateX(180deg);
 }
 
-.carta.abrir .dobra{
-  transform:rotateX(0deg);
+/* CONTEÚDO */
+.conteudo-carta {
+    position: absolute;
+    inset: 14px;
+    font-family: Georgia, serif;
+    font-size: .95rem;
+    line-height: 1.4;
+    color: #444;
+    text-align: left;
 }
 
-/* === BOTÃO === */
-.botao{
-  margin-top:18px;
-  padding:14px 28px;
-  border-radius:40px;
-  border:none;
-  background:var(--rosa);
-  color:#fff;
-  font-size:1rem;
-  cursor:pointer;
+/* ANIMAÇÕES */
+.carta.subir {
+    transform: translate(-50%, -120px);
+    transition: transform 1.1s cubic-bezier(.22,1,.36,1);
 }
 
-/* === JOGO === */
-.jogo{display:none;margin-top:25px}
-.opcao{
-  background:var(--rosa-claro);
-  padding:14px;
-  border-radius:18px;
-  margin-bottom:12px;
-  cursor:pointer;
+.carta.abrir .dobra {
+    transform: rotateX(0deg);
 }
-.opcao:hover{background:#ffd1e3}
 
-.resultado{font-weight:bold;color:var(--rosa)}
+/* BOTÃO */
+.botao {
+    margin-top: 18px;
+    padding: 14px 40px;
+    border-radius: 40px;
+    border: none;
+    background: var(--rosa);
+    color: white;
+    font-size: 1.05rem;
+    cursor: pointer;
+}
 
-footer{
-  margin-top:22px;
-  font-size:.85rem;
-  color:#999;
+/* JOGO */
+.jogo {
+    display: none;
+    margin-top: 25px;
+}
+
+.pergunta {
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.opcao {
+    background: var(--rosa-claro);
+    padding: 14px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.opcao:hover {
+    background: #ffd1e3;
+}
+
+.resultado {
+    margin-top: 20px;
+    font-weight: bold;
+    color: var(--rosa);
+}
+
+footer {
+    margin-top: 22px;
+    font-size: .85rem;
+    color: #999;
 }
 </style>
 </head>
@@ -187,56 +169,107 @@ footer{
 <body>
 
 <div class="container">
-  <h1>🎮 quiz da bibia</h1>
+    <h1>🎮 quiz da bibia</h1>
 
-  <div class="area-envelope">
+    <p>
+        regras do jogo:<br>
+        você sempre acerta.
+    </p>
 
-    <div class="carta" id="carta">
-      para: bibia 💖<br><br>
-      essa carta segue<br>
-      leis da física básicas<br>
-      e verdades absolutas.
-      <div class="dobra cima"></div>
-      <div class="dobra baixo"></div>
+    <div class="area-carta">
+        <div class="carta" id="carta">
+            <div class="papel">
+                <div class="conteudo-carta">
+                    para: bibia 💖<br><br>
+                    este jogo contém:<br>
+                    confiança,<br>
+                    incentivo<br>
+                    e zero estresse.
+                </div>
+                <div class="dobra cima"></div>
+                <div class="dobra baixo"></div>
+            </div>
+        </div>
     </div>
 
-    <div class="envelope" id="envelope">
-      <div class="envelope-tampa"></div>
-      <div class="envelope-base"></div>
+    <button class="botao" onclick="jogar()">
+        jogar ✨
+    </button>
+
+    <div class="jogo" id="jogo">
+        <div class="pergunta" id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div class="resultado" id="resultado"></div>
     </div>
 
-  </div>
-
-  <button class="botao" onclick="abrirTudo()">abrir carta ✨</button>
-
-  <div class="jogo" id="jogo"></div>
-
-  <footer>feito com lógica, carinho e zero bug visual 💗</footer>
+    <footer>
+        alguém aqui aposta tudo em você 💗
+    </footer>
 </div>
 
 <script>
-const perguntas=[
-  "quem vai dominar o direito civil?",
-  "quem é mais forte que o cansaço?",
-  "quem nunca desiste quando decide?"
+const perguntas = [
+    {
+        q: "quem vai mandar muito bem no direito civil?",
+        a: ["a bibia", "óbvio", "todas as alternativas"],
+    },
+    {
+        q: "quem é mais forte que o cansaço?",
+        a: ["a bibia focada", "a bibia cansada", "qualquer versão da bibia"],
+    },
+    {
+        q: "quando a bibia decide:",
+        a: ["ela continua", "ela melhora", "ela vence"],
+    }
 ];
 
-let atual=0;
+let atual = 0;
 
-function abrirTudo(){
-  const env=document.getElementById("envelope");
-  const carta=document.getElementById("carta");
+function jogar() {
+    const carta = document.getElementById("carta");
 
-  env.classList.add("aberto");
+    carta.classList.add("subir");
 
-  setTimeout(()=>carta.classList.add("subir"),400);
-  setTimeout(()=>carta.classList.add("abrir"),1200);
+    setTimeout(() => {
+        carta.classList.add("abrir");
+    }, 500);
 
-  setTimeout(()=>{
-    document.getElementById("jogo").style.display="block";
-    document.getElementById("jogo").innerHTML=
-      `<p class="resultado">resultado final:<br>bibia impecável 💖</p>`;
-  },1800);
+    setTimeout(() => {
+        document.getElementById("jogo").style.display = "block";
+        carregarPergunta();
+    }, 1200);
+}
+
+function carregarPergunta() {
+    const p = perguntas[atual];
+    document.getElementById("pergunta").innerText = p.q;
+
+    const opcoesDiv = document.getElementById("opcoes");
+    opcoesDiv.innerHTML = "";
+
+    p.a.forEach((texto) => {
+        const div = document.createElement("div");
+        div.className = "opcao";
+        div.innerText = texto;
+        div.onclick = responder;
+        opcoesDiv.appendChild(div);
+    });
+}
+
+function responder() {
+    document.getElementById("resultado").innerText =
+        "✔ resposta correta. como sempre.";
+
+    setTimeout(() => {
+        atual++;
+        document.getElementById("resultado").innerText = "";
+        if (atual < perguntas.length) {
+            carregarPergunta();
+        } else {
+            document.getElementById("jogo").innerHTML =
+                "<p class='resultado'>fim do jogo.<br><strong>resultado final:</strong><br>bibia impecável 💖</p>";
+        }
+    }, 900);
 }
 </script>
 
