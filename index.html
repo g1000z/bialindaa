@@ -41,24 +41,15 @@ h1 {
     color: var(--rosa);
 }
 
-/* ÁREA DA IMAGEM */
-.area-imagem {
-    height: 260px;
-    position: relative;
-    margin-top: 20px;
-}
-
 /* IMAGEM */
 .imagem-bibia {
     width: 220px;
     height: auto;
     border-radius: 18px;
     box-shadow: 0 12px 25px rgba(0,0,0,.25);
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
-    transition: transform 1s cubic-bezier(.22,1,.36,1);
+    margin: 20px auto;
+    display: block;
+    transition: transform 0.6s ease;
     cursor: pointer;
 }
 
@@ -66,12 +57,9 @@ h1 {
 .carta {
     width: 220px;
     height: 150px;
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%);
+    margin: 20px auto 0;
     perspective: 1000px;
-    z-index: 2;
+    position: relative;
 }
 
 /* PAPEL */
@@ -124,7 +112,7 @@ h1 {
 
 /* ANIMAÇÕES */
 .carta.subir {
-    transform: translate(-50%, -120px);
+    transform: translateY(-120px);
     transition: transform 1.1s cubic-bezier(.22,1,.36,1);
 }
 
@@ -191,24 +179,24 @@ footer {
         você sempre acerta.
     </p>
 
-    <div class="area-imagem">
-        <img src="https://i.ibb.co/7NY4cR7b/passaros-afetuosos-sentados-juntos-num-galho-23-2150984411.avif"
-             alt="passarinhos fofos"
-             class="imagem-bibia"
-             id="imagem">
-        
-        <div class="carta" id="carta">
-            <div class="papel">
-                <div class="conteudo-carta">
-                    para: bibia 💖<br><br>
-                    este jogo contém:<br>
-                    confiança,<br>
-                    incentivo<br>
-                    e zero estresse.
-                </div>
-                <div class="dobra cima"></div>
-                <div class="dobra baixo"></div>
+    <!-- IMAGEM -->
+    <img src="https://i.ibb.co/7NY4cR7b/passaros-afetuosos-sentados-juntos-num-galho-23-2150984411.avif"
+         alt="passarinhos fofos"
+         class="imagem-bibia"
+         id="imagem">
+
+    <!-- CARTA -->
+    <div class="carta" id="carta">
+        <div class="papel">
+            <div class="conteudo-carta">
+                para: bibia 💖<br><br>
+                este jogo contém:<br>
+                confiança,<br>
+                incentivo<br>
+                e zero estresse.
             </div>
+            <div class="dobra cima"></div>
+            <div class="dobra baixo"></div>
         </div>
     </div>
 
@@ -249,10 +237,9 @@ function jogar() {
     const carta = document.getElementById("carta");
     const img = document.getElementById("imagem");
 
-    // opcional: animação leve da imagem
-    img.style.transform = "translate(-50%, -20px) scale(1.02)";
-    img.style.transition = "transform 0.6s ease";
-
+    // animação leve da imagem
+    img.style.transform = "scale(1.05)";
+    
     carta.classList.add("subir");
 
     setTimeout(() => {
