@@ -4,7 +4,7 @@
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>bia 💌 carta surpresa</title>
+<title>bia 💖 mini jogo</title>
 
 <style>
 :root {
@@ -40,22 +40,19 @@ body {
 
 h1 {
     color: var(--rosa);
-    margin-bottom: 8px;
 }
 
 p {
     color: #444;
-    line-height: 1.6;
 }
 
-/* AREA ENVELOPE */
-.envelope-area {
+/* ENVELOPE */
+.area-envelope {
     height: 220px;
     position: relative;
     margin-top: 20px;
 }
 
-/* CARTA */
 .carta {
     width: 210px;
     height: 120px;
@@ -79,7 +76,6 @@ p {
     transform: translate(-50%, -120px);
 }
 
-/* ENVELOPE */
 .envelope {
     width: 240px;
     height: 150px;
@@ -125,64 +121,40 @@ p {
     color: white;
     font-size: 1rem;
     cursor: pointer;
-    transition: .2s;
 }
 
 .botao:hover {
     transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(0,0,0,.25);
 }
 
-/* FLASHCARDS */
-.flashcards {
+/* JOGO */
+.jogo {
     display: none;
     margin-top: 25px;
-    display: grid;
-    gap: 18px;
 }
 
-.flashcard {
-    perspective: 1000px;
-}
-
-.card {
-    width: 100%;
-    min-height: 120px;
-    position: relative;
-    transform-style: preserve-3d;
-    transition: transform .7s;
-    cursor: pointer;
-}
-
-.card.virado {
-    transform: rotateY(180deg);
-}
-
-.face {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    backface-visibility: hidden;
-    border-radius: 20px;
-    padding: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.05rem;
-    text-align: center;
-}
-
-.frente {
-    background: var(--rosa-claro);
-    color: var(--rosa);
+.pergunta {
     font-weight: bold;
+    margin-bottom: 18px;
 }
 
-.verso {
-    background: white;
-    border: 2px dashed #ffc2d6;
-    transform: rotateY(180deg);
-    color: #333;
+.opcao {
+    background: var(--rosa-claro);
+    padding: 14px;
+    border-radius: 18px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: .2s;
+}
+
+.opcao:hover {
+    background: #ffd1e3;
+}
+
+.resultado {
+    margin-top: 20px;
+    font-weight: bold;
+    color: var(--rosa);
 }
 
 footer {
@@ -196,18 +168,15 @@ footer {
 <body>
 
 <div class="container">
-    <h1>💌 atenção, bibia</h1>
+    <h1>🎮 quiz da bibia</h1>
 
     <p>
-        contém informações importantes,<br>
-        zero úteis pra prova,<br>
-        mas ótimas pro coração.
+        nível de dificuldade:<br>
+        impossível errar.
     </p>
 
-    <div class="envelope-area">
-        <div class="carta" id="carta">
-            abrir com cuidado 💖
-        </div>
+    <div class="area-envelope">
+        <div class="carta" id="carta">carta confidencial 💖</div>
 
         <div class="envelope" id="envelope">
             <div class="envelope-tampa"></div>
@@ -215,98 +184,82 @@ footer {
         </div>
     </div>
 
-    <button class="botao" onclick="abrirCarta()">
-        abrir agora ✨
+    <button class="botao" onclick="abrirJogo()">
+        começar ✨
     </button>
 
-    <div class="flashcards" id="flashcards">
-
-        <div class="flashcard">
-            <div class="card" onclick="virar(this)">
-                <div class="face frente">
-                    pergunta de nível fácil:
-                </div>
-                <div class="face verso">
-                    quem vai dominar o direito civil<br>
-                    sem perder a doçura?
-                    <br><br>
-                    a bibia.
-                </div>
-            </div>
-        </div>
-
-        <div class="flashcard">
-            <div class="card" onclick="virar(this)">
-                <div class="face frente">
-                    teste de resistência:
-                </div>
-                <div class="face verso">
-                    quem aguenta mais pressão,<br>
-                    cansaço e ainda segue firme?
-                    <br><br>
-                    a bibia.
-                </div>
-            </div>
-        </div>
-
-        <div class="flashcard">
-            <div class="card" onclick="virar(this)">
-                <div class="face frente">
-                    pergunta capciosa:
-                </div>
-                <div class="face verso">
-                    existe alguém focada<br>
-                    quando decide ir até o fim?
-                    <br><br>
-                    não.
-                </div>
-            </div>
-        </div>
-
-        <div class="flashcard">
-            <div class="card" onclick="virar(this)">
-                <div class="face frente">
-                    spoiler oficial:
-                </div>
-                <div class="face verso">
-                    aprovação chegando,<br>
-                    confiança no lugar,<br>
-                    orgulho espalhado por aí 💖
-                </div>
-            </div>
-        </div>
-
-        <div class="flashcard">
-            <div class="card" onclick="virar(this)">
-                <div class="face frente">
-                    mensagem escondida:
-                </div>
-                <div class="face verso">
-                    você já está no caminho certo.<br>
-                    só continua.
-                </div>
-            </div>
-        </div>
-
+    <div class="jogo" id="jogo">
+        <div class="pergunta" id="pergunta"></div>
+        <div id="opcoes"></div>
+        <div class="resultado" id="resultado"></div>
     </div>
 
     <footer>
-        alguém aqui acredita muito em você 💗
+        desenvolvido por alguém que confia muito na resposta 💗
     </footer>
 </div>
 
 <script>
-function abrirCarta() {
+const perguntas = [
+    {
+        q: "quem vai ser uma advogada civil absurda de boa?",
+        a: ["a bibia", "óbvio que a bibia", "nem precisava perguntar"],
+        correta: 0
+    },
+    {
+        q: "quem é mais forte que o guilherme?",
+        a: ["a bibia", "a bibia focada", "todas as alternativas"],
+        correta: 2
+    },
+    {
+        q: "o que acontece quando a bibia decide algo?",
+        a: ["ela vai até o fim", "o mundo que lute", "as duas coisas"],
+        correta: 2
+    }
+];
+
+let atual = 0;
+
+function abrirJogo() {
     document.getElementById("envelope").classList.add("aberto");
     document.getElementById("carta").classList.add("subir");
 
     setTimeout(() => {
-        document.getElementById("flashcards").style.display = "grid";
+        document.getElementById("jogo").style.display = "block";
+        carregarPergunta();
     }, 900);
 }
 
-function virar(card) {
-    card.classList.toggle("virado");
+function carregarPergunta() {
+    const p = perguntas[atual];
+    document.getElementById("pergunta").innerText = p.q;
+
+    const opcoesDiv = document.getElementById("opcoes");
+    opcoesDiv.innerHTML = "";
+
+    p.a.forEach((texto, index) => {
+        const div = document.createElement("div");
+        div.className = "opcao";
+        div.innerText = texto;
+        div.onclick = () => responder(index);
+        opcoesDiv.appendChild(div);
+    });
+}
+
+function responder(index) {
+    document.getElementById("resultado").innerText =
+        "✔ resposta correta. como sempre.";
+
+    setTimeout(() => {
+        atual++;
+        document.getElementById("resultado").innerText = "";
+        if (atual < perguntas.length) {
+            carregarPergunta();
+        } else {
+            document.getElementById("jogo").innerHTML =
+                "<p class='resultado'>fim do jogo.<br>resultado final:<br><strong>bibia incrível.</strong> 💖</p>";
+        }
+    }, 900);
 }
 </script>
 
