@@ -42,40 +42,63 @@ h1 {
     color: var(--rosa);
 }
 
-p {
-    color: #444;
-}
-
-/* ENVELOPE */
+/* AREA ENVELOPE */
 .area-envelope {
-    height: 220px;
+    height: 260px;
     position: relative;
     margin-top: 20px;
 }
 
+/* CARTA REALISTA */
 .carta {
-    width: 210px;
-    height: 120px;
-    background: white;
-    border-radius: 14px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    width: 200px;
+    height: 160px;
+    background: #fffdfc;
+    border-radius: 10px 10px 14px 14px;
+    box-shadow:
+        0 8px 20px rgba(0,0,0,0.18),
+        inset 0 0 0 1px #f2c4d6;
     position: absolute;
     left: 50%;
-    bottom: 40px;
+    bottom: 50px;
     transform: translateX(-50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    color: var(--rosa);
     transition: transform 1s ease;
-    z-index: 1;
+    z-index: 2;
+    padding: 14px 12px;
+    font-family: 'Georgia', serif;
+    color: #444;
+}
+
+.carta::before {
+    content: "";
+    position: absolute;
+    top: 10px;
+    left: 12px;
+    right: 12px;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #ffd1e3, transparent);
+}
+
+.carta::after {
+    content: "💖";
+    position: absolute;
+    bottom: 10px;
+    right: 12px;
+    font-size: 1.1rem;
+    opacity: .8;
+}
+
+.carta-conteudo {
+    margin-top: 18px;
+    font-size: .95rem;
+    line-height: 1.4;
 }
 
 .carta.subir {
-    transform: translate(-50%, -120px);
+    transform: translate(-50%, -140px);
 }
 
+/* ENVELOPE */
 .envelope {
     width: 240px;
     height: 150px;
@@ -83,6 +106,7 @@ p {
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
+    z-index: 1;
 }
 
 .envelope-base {
@@ -91,8 +115,6 @@ p {
     background: var(--rosa);
     border-radius: 0 0 22px 22px;
     box-shadow: 0 12px 30px rgba(0,0,0,0.25);
-    position: absolute;
-    bottom: 0;
 }
 
 .envelope-tampa {
@@ -123,10 +145,6 @@ p {
     cursor: pointer;
 }
 
-.botao:hover {
-    transform: translateY(-2px);
-}
-
 /* JOGO */
 .jogo {
     display: none;
@@ -144,7 +162,6 @@ p {
     border-radius: 18px;
     margin-bottom: 12px;
     cursor: pointer;
-    transition: .2s;
 }
 
 .opcao:hover {
@@ -172,11 +189,17 @@ footer {
 
     <p>
         nível de dificuldade:<br>
-        impossível errar.
+        completamente injusto.
     </p>
 
     <div class="area-envelope">
-        <div class="carta" id="carta">carta confidencial 💖</div>
+        <div class="carta" id="carta">
+            <div class="carta-conteudo">
+                para: bibia<br><br>
+                contém verdades absolutas<br>
+                e zero pegadinhas.
+            </div>
+        </div>
 
         <div class="envelope" id="envelope">
             <div class="envelope-tampa"></div>
@@ -185,7 +208,7 @@ footer {
     </div>
 
     <button class="botao" onclick="abrirJogo()">
-        começar ✨
+        abrir carta ✨
     </button>
 
     <div class="jogo" id="jogo">
@@ -195,7 +218,7 @@ footer {
     </div>
 
     <footer>
-        desenvolvido por alguém que confia muito na resposta 💗
+        produzido com carinho e certeza no resultado 💗
     </footer>
 </div>
 
@@ -204,17 +227,14 @@ const perguntas = [
     {
         q: "quem vai ser uma advogada civil absurda de boa?",
         a: ["a bibia", "óbvio que a bibia", "nem precisava perguntar"],
-        correta: 0
     },
     {
-        q: "quem é mais forte que o guilherme?",
+        q: "quem tem mais força que o guilherme?",
         a: ["a bibia", "a bibia focada", "todas as alternativas"],
-        correta: 2
     },
     {
-        q: "o que acontece quando a bibia decide algo?",
-        a: ["ela vai até o fim", "o mundo que lute", "as duas coisas"],
-        correta: 2
+        q: "quando a bibia decide algo:",
+        a: ["ela cumpre", "ela insiste", "ela vence"],
     }
 ];
 
@@ -237,16 +257,16 @@ function carregarPergunta() {
     const opcoesDiv = document.getElementById("opcoes");
     opcoesDiv.innerHTML = "";
 
-    p.a.forEach((texto, index) => {
+    p.a.forEach((texto) => {
         const div = document.createElement("div");
         div.className = "opcao";
         div.innerText = texto;
-        div.onclick = () => responder(index);
+        div.onclick = responder;
         opcoesDiv.appendChild(div);
     });
 }
 
-function responder(index) {
+function responder() {
     document.getElementById("resultado").innerText =
         "✔ resposta correta. como sempre.";
 
@@ -257,7 +277,7 @@ function responder(index) {
             carregarPergunta();
         } else {
             document.getElementById("jogo").innerHTML =
-                "<p class='resultado'>fim do jogo.<br>resultado final:<br><strong>bibia incrível.</strong> 💖</p>";
+                "<p class='resultado'>fim do jogo.<br><strong>resultado final:</strong><br>bibia incrível 💖</p>";
         }
     }, 900);
 }
