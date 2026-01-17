@@ -42,60 +42,91 @@ h1 {
     color: var(--rosa);
 }
 
-/* AREA ENVELOPE */
+/* ÁREA ENVELOPE */
 .area-envelope {
-    height: 260px;
+    height: 300px;
     position: relative;
     margin-top: 20px;
 }
 
-/* CARTA REALISTA */
+/* CARTA */
 .carta {
-    width: 200px;
-    height: 160px;
-    background: #fffdfc;
-    border-radius: 10px 10px 14px 14px;
-    box-shadow:
-        0 8px 20px rgba(0,0,0,0.18),
-        inset 0 0 0 1px #f2c4d6;
+    width: 210px;
+    height: 140px;
     position: absolute;
     left: 50%;
-    bottom: 50px;
+    bottom: 60px;
     transform: translateX(-50%);
-    transition: transform 1s ease;
+    perspective: 1000px;
     z-index: 2;
-    padding: 14px 12px;
-    font-family: 'Georgia', serif;
-    color: #444;
 }
 
-.carta::before {
-    content: "";
+/* PAPEL */
+.papel {
+    width: 100%;
+    height: 100%;
+    background: #fffdfc;
+    border-radius: 12px;
+    box-shadow:
+        0 10px 25px rgba(0,0,0,.2),
+        inset 0 0 0 1px #f2c4d6;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+}
+
+/* DOBRA SUPERIOR */
+.dobra-cima {
     position: absolute;
-    top: 10px;
-    left: 12px;
-    right: 12px;
-    height: 2px;
-    background: linear-gradient(to right, transparent, #ffd1e3, transparent);
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #fffdfc;
+    border-bottom: 1px solid #f2c4d6;
+    transform-origin: top;
+    transform: rotateX(180deg);
+    transition: transform .8s ease;
+    backface-visibility: hidden;
 }
 
-.carta::after {
-    content: "💖";
+/* DOBRA INFERIOR */
+.dobra-baixo {
     position: absolute;
-    bottom: 10px;
-    right: 12px;
-    font-size: 1.1rem;
-    opacity: .8;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: #fffdfc;
+    border-top: 1px solid #f2c4d6;
+    transform-origin: bottom;
+    transform: rotateX(180deg);
+    transition: transform .8s ease;
+    backface-visibility: hidden;
 }
 
-.carta-conteudo {
-    margin-top: 18px;
-    font-size: .95rem;
+/* CONTEÚDO */
+.conteudo-carta {
+    position: absolute;
+    inset: 14px;
+    font-family: Georgia, serif;
+    font-size: .9rem;
     line-height: 1.4;
+    color: #444;
+    text-align: left;
 }
 
+/* ANIMAÇÕES */
 .carta.subir {
     transform: translate(-50%, -140px);
+}
+
+.carta.abrir .dobra-cima {
+    transform: rotateX(0deg);
+}
+
+.carta.abrir .dobra-baixo {
+    transform: rotateX(0deg);
 }
 
 /* ENVELOPE */
@@ -106,7 +137,6 @@ h1 {
     left: 50%;
     bottom: 0;
     transform: translateX(-50%);
-    z-index: 1;
 }
 
 .envelope-base {
@@ -114,7 +144,7 @@ h1 {
     height: 100%;
     background: var(--rosa);
     border-radius: 0 0 22px 22px;
-    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+    box-shadow: 0 12px 30px rgba(0,0,0,.25);
 }
 
 .envelope-tampa {
@@ -134,6 +164,7 @@ h1 {
     transform: rotateX(180deg);
 }
 
+/* BOTÃO */
 .botao {
     margin-top: 18px;
     padding: 14px 28px;
@@ -188,16 +219,22 @@ footer {
     <h1>🎮 quiz da bibia</h1>
 
     <p>
-        nível de dificuldade:<br>
-        completamente injusto.
+        aviso:<br>
+        esse jogo não aceita respostas erradas.
     </p>
 
     <div class="area-envelope">
+
         <div class="carta" id="carta">
-            <div class="carta-conteudo">
-                para: bibia<br><br>
-                contém verdades absolutas<br>
-                e zero pegadinhas.
+            <div class="papel">
+                <div class="conteudo-carta">
+                    para: bibia 💖<br><br>
+                    contém verdades absolutas,<br>
+                    motivação escondida<br>
+                    e zero pressão.
+                </div>
+                <div class="dobra-cima"></div>
+                <div class="dobra-baixo"></div>
             </div>
         </div>
 
@@ -205,9 +242,10 @@ footer {
             <div class="envelope-tampa"></div>
             <div class="envelope-base"></div>
         </div>
+
     </div>
 
-    <button class="botao" onclick="abrirJogo()">
+    <button class="botao" onclick="abrirTudo()">
         abrir carta ✨
     </button>
 
@@ -218,36 +256,42 @@ footer {
     </div>
 
     <footer>
-        produzido com carinho e certeza no resultado 💗
+        alguém confia muito em você 💗
     </footer>
 </div>
 
 <script>
 const perguntas = [
     {
-        q: "quem vai ser uma advogada civil absurda de boa?",
-        a: ["a bibia", "óbvio que a bibia", "nem precisava perguntar"],
+        q: "quem vai mandar muito bem no direito civil?",
+        a: ["a bibia", "óbvio", "todas as alternativas"],
     },
     {
-        q: "quem tem mais força que o guilherme?",
-        a: ["a bibia", "a bibia focada", "todas as alternativas"],
+        q: "quem é mais forte que o cansaço?",
+        a: ["a bibia focada", "a bibia cansada", "qualquer versão da bibia"],
     },
     {
-        q: "quando a bibia decide algo:",
-        a: ["ela cumpre", "ela insiste", "ela vence"],
+        q: "quando a bibia decide:",
+        a: ["ela continua", "ela melhora", "ela vence"],
     }
 ];
 
 let atual = 0;
 
-function abrirJogo() {
+function abrirTudo() {
     document.getElementById("envelope").classList.add("aberto");
-    document.getElementById("carta").classList.add("subir");
+
+    const carta = document.getElementById("carta");
+    carta.classList.add("subir");
+
+    setTimeout(() => {
+        carta.classList.add("abrir");
+    }, 600);
 
     setTimeout(() => {
         document.getElementById("jogo").style.display = "block";
         carregarPergunta();
-    }, 900);
+    }, 1400);
 }
 
 function carregarPergunta() {
@@ -268,7 +312,7 @@ function carregarPergunta() {
 
 function responder() {
     document.getElementById("resultado").innerText =
-        "✔ resposta correta. como sempre.";
+        "✔ resposta correta. sempre.";
 
     setTimeout(() => {
         atual++;
@@ -277,7 +321,7 @@ function responder() {
             carregarPergunta();
         } else {
             document.getElementById("jogo").innerHTML =
-                "<p class='resultado'>fim do jogo.<br><strong>resultado final:</strong><br>bibia incrível 💖</p>";
+                "<p class='resultado'>fim do jogo.<br><strong>resultado final:</strong><br>bibia impecável 💖</p>";
         }
     }, 900);
 }
